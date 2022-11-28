@@ -14,6 +14,9 @@ class GameState(Sound):
         self.background = None
         self.is_bg_created = False
 
+    def game(self):
+        pass
+
     def intro(self):
         pass
 
@@ -26,12 +29,14 @@ class GameState(Sound):
     # ========================================= state manager ...
     def state_manager(self):
         # print(self.state)
-        if self.state == 'pause':
-            self.start_pause()
+        if self.state == 'game':
+            self.game()
         if self.state == 'intro':
             self.intro()
         if self.state == 'menu':
             self.menu()
+        if self.state == 'pause':
+            self.start_pause()
 
 
 #  ================================ create new GameState
