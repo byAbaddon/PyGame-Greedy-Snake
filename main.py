@@ -23,7 +23,7 @@ class GameState(Sound):
     def start_pause(self):
         pass
 
-    # ========================================= state manager
+    # ========================================= state manager ...
     def state_manager(self):
         # print(self.state)
         if self.state == 'pause':
