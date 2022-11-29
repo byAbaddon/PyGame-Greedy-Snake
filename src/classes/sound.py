@@ -20,7 +20,7 @@ class Sound:
     def intro_music(self):
         self.play_sound('./src/assets/sounds/game_musics/intro.mp3')
 
-    # =================================== areas bg music
-    # Bonus Level One
-    def bonus_level_one(self):
-        self.play_sound('./src/assets/sounds/game_musics/level_bonus_one_2.mp3', 0.6, -1)
+    # ===========================  SNAKE ===========================
+    def snake_move(self):
+        self.play_sound('./src/assets/sounds/snake_move_one.wav')
+

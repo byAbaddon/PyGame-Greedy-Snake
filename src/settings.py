@@ -25,8 +25,8 @@ pygame.display.set_caption('*** Snake Bite ***', 'default_icon')
 # clock frames
 CLOCK = pygame.time.Clock()
 FPS = 60
-
-# ==================================================================== local variables
+# ------------------------------
+BLOCK_SIZE = 35
 TOP_FRAME_SIZE = 100
 
 
