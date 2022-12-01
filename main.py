@@ -1,22 +1,30 @@
+import pygame.sprite
+
 from src.settings import *
 from src.classes.sound import Sound
 from src.classes.snake import Snake
+from src.classes.fruit import Fruit
 from src.classes.grid import Grid
 
 # ======================================================================== create Sprite groups
 snake_group = pygame.sprite.GroupSingle()
-
-# add to all_sprite_groups
-all_spite_groups_dict = {'snake': snake_group}
-
-# ======================================================================= initialize  Classes
-snake = Snake()
-
-
-# add to group
+fruits_group = pygame.sprite.Group()
+#
+# # add to all_sprite_groups
+all_spite_groups_dict = {'snake': snake_group, 'fruits': fruits_group}
+#
+# # ======================================================================= initialize  Classes
+#
+snake = Snake(all_spite_groups_dict)
+fruit = Fruit()
+#
+#
+# # add to group
 snake_group.add(snake)
+fruits_group.add(fruit)
 
 # ==================================================================
+snake = Snake({})
 
 
 # Game State
@@ -39,16 +47,22 @@ class GameState(Sound):
         text_creator(f'Pos: x= {int(snake.pos.x)} y= {int(snake.pos.y)}', 'white', 86, 33, 22)
         text_creator(f'MousePos: x= {pygame.mouse.get_pos()}', 'white', 490, 5)
 
+        if not self.is_bg_created:
+            pass
+            Sound.background_music(self)
+            self.is_bg_created = True
+
         # # =================================================== UPDATE
         Grid.draw_grid(self)
+        snake.update()
 
-        # update BG
-        # self.background.update()
-        # # # --------------------------- draw sprite group
-        snake_group.draw(SCREEN)
-
-        # # # --------------------------- update sprite group
+        # #  --------------------------- draw sprite group
+        # snake_group.draw(SCREEN)
+        fruits_group.draw(SCREEN)
+        #
+        # # # # --------------------------- update sprite group
         snake_group.update()
+        fruits_group.update()
 
     def intro(self):
         pass
@@ -83,5 +97,6 @@ while True:
     SCREEN.fill(pygame.Color('black'))
     game_state.state_manager()
     pygame.display.update()
-    CLOCK.tick(FPS)
+    CLOCK.tick(snake.speed)
     exit_game()
+

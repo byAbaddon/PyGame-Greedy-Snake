@@ -17,8 +17,12 @@ class Sound:
     def btn_click(self):
         self.play_sound('./src/assets/sounds/buttons/click.wav')
 
+    # Background
     def intro_music(self):
         self.play_sound('./src/assets/sounds/game_musics/intro.mp3')
+
+    def background_music(self):
+        self.play_sound('./src/assets/sounds/Background_tango.mp3', 0.6, -1)
 
     # ===========================  SNAKE ===========================
     def snake_move(self):

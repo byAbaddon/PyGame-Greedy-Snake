@@ -1,8 +1,8 @@
 import pygame
-from random import randrange
+from random import randrange, randint, choices
 from sys import exit
 from pygame.math import Vector2
-
+from pathlib import Path
 
 vec = Vector2
 # ========================================================================== initialize
@@ -12,8 +12,12 @@ pygame.init()
 # hide mouse from game window
 # pygame.mouse.set_visible(False)
 # ========================================================================== display size
-S_W, S_H = 800, 600
+CELL_NUMBER = 28
+BLOCK_SIZE = 30
+S_W = CELL_NUMBER * BLOCK_SIZE
+S_H = 640
 SCREEN = pygame.display.set_mode((S_W, S_H))
+FRAME_SIZE = 100
 # ========================================================================== add icon
 #programIcon = pygame.image.load('./src/assets/images/title_icon/baby_hat.png')
 #pygame.display.set_icon(programIcon)
@@ -24,11 +28,8 @@ pygame.display.set_caption('*** Snake Bite ***', 'default_icon')
 # ========================================================================== global const
 # clock frames
 CLOCK = pygame.time.Clock()
-FPS = 60
-# ------------------------------
-BLOCK_SIZE = 35
-TOP_FRAME_SIZE = 100
 
+# ------------------------------
 
 # screen transition animation
 # def screen_transition_animation(pic='./src/assets/images/frames/bg_statistic.png'):
