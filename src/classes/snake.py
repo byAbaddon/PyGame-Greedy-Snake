@@ -5,6 +5,8 @@ from src.classes.sound import Sound
 
 
 class Snake(pygame.sprite.Sprite, Sound):
+    points = 0
+    is_eat_fruit = False
     is_dead = False
     start_x_pos = CELL_NUMBER // 2
     start_y_pos = CELL_NUMBER // 2 + 4
@@ -94,10 +96,14 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.speed += 1
 
     def check_snake_and_fruit_collide(self):
-        hits = pygame.sprite.spritecollide(self, self.asg['fruit'], True, pygame.sprite.collide_mask)
-        if hits:
-            Sound.snake_eat(self)
-            # self.asg['fruit'].add(fruit)
+        # hits = pygame.sprite.spritecollide(self, self.asg['fruit'], True, pygame.sprite.collide_mask)
+        for sprite in pygame.sprite.spritecollide(self, self.asg['fruit'], False, pygame.sprite.collide_mask):
+            if sprite:
+                Sound.snake_eat(self)
+                _, fruit_points, name = sprite.item_name.split('_')
+                self.points += int(fruit_points)
+                print(self.points)
+                self.is_eat_fruit = True
 
     def update(self):
         self.transform()
