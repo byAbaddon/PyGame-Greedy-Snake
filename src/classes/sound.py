@@ -28,3 +28,6 @@ class Sound:
     def snake_move(self):
         self.play_sound('./src/assets/sounds/snake_move_one.wav')
 
+    def snake_eat(self):
+        self.play_sound('./src/assets/sounds/snake_eat_one.wav')
+

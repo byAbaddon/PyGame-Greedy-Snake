@@ -4,8 +4,9 @@ from src.settings import *
 class Fruit(pygame.sprite.Sprite):
     fruits_list = list(sorted(Path('./src/assets/images/fruits/').glob('*.png')))
 
-    def __init__(self):
+    def __init__(self, all_spite_groups_dict):
         pygame.sprite.Sprite.__init__(self, )
+        self.asg = all_spite_groups_dict
         self.image = pygame.image.load('./src/assets/images/fruits/a_100_cherry.png')
         self.rect = self.image.get_bounding_rect(min_alpha=1)
         self.rect = self.image.get_rect()
@@ -18,8 +19,11 @@ class Fruit(pygame.sprite.Sprite):
     def create_random_fruit(self):
         random_weight_fruit = choices(self.fruits_list, weights=[10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1])[0]
         self.image = pygame.image.load(random_weight_fruit)
+    #
+    # def update(self):
+    #
+    #     if not self.is_fruit:
+    #         self.create_random_fruit()
+    #         self.is_fruit = True
 
-    def update(self):
-        self.create_random_fruit()
-        print(self.fruits_list[0])
 

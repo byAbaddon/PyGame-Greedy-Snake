@@ -7,24 +7,23 @@ from src.classes.fruit import Fruit
 from src.classes.grid import Grid
 
 # ======================================================================== create Sprite groups
-snake_group = pygame.sprite.GroupSingle()
-fruits_group = pygame.sprite.Group()
+snake_group = pygame.sprite.Group()
+fruit_group = pygame.sprite.Group()
 #
 # # add to all_sprite_groups
-all_spite_groups_dict = {'snake': snake_group, 'fruits': fruits_group}
+all_spite_groups_dict = {'snake': snake_group, 'fruit': fruit_group}
 #
 # # ======================================================================= initialize  Classes
 #
 snake = Snake(all_spite_groups_dict)
-fruit = Fruit()
+fruit = Fruit(all_spite_groups_dict)
 #
 #
 # # add to group
 snake_group.add(snake)
-fruits_group.add(fruit)
+fruit_group.add(fruit)
 
 # ==================================================================
-snake = Snake({})
 
 
 # Game State
@@ -49,7 +48,7 @@ class GameState(Sound):
 
         if not self.is_bg_created:
             pass
-            Sound.background_music(self)
+            # Sound.background_music(self)
             self.is_bg_created = True
 
         # # =================================================== UPDATE
@@ -57,12 +56,12 @@ class GameState(Sound):
         snake.update()
 
         # #  --------------------------- draw sprite group
-        # snake_group.draw(SCREEN)
-        fruits_group.draw(SCREEN)
+        snake_group.draw(SCREEN)
+        fruit_group.draw(SCREEN)
         #
         # # # # --------------------------- update sprite group
         snake_group.update()
-        fruits_group.update()
+        fruit_group.update()
 
     def intro(self):
         pass
@@ -98,5 +97,15 @@ while True:
     game_state.state_manager()
     pygame.display.update()
     CLOCK.tick(snake.speed)
-    exit_game()
+    # exit_game()
+
+    # for event in pygame.event.get():
+    #     if event.type == pygame.QUIT:
+    #         pygame.quit()
+    #         exit()
+        # if event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_DOWN:
+        #         print('Down was pressed')
+        #     if event.key == pygame.K_UP:
+        #         print('Up was pressed')
 

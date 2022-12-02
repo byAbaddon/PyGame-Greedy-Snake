@@ -28,7 +28,7 @@ pygame.display.set_caption('*** Snake Bite ***', 'default_icon')
 # ========================================================================== global const
 # clock frames
 CLOCK = pygame.time.Clock()
-
+FPS = 60
 # ------------------------------
 
 # screen transition animation
