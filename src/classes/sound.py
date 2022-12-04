@@ -31,3 +31,5 @@ class Sound:
     def snake_eat(self):
         self.play_sound('./src/assets/sounds/snake_eat_one.wav')
 
+    def snake_eat_rabbit(self):
+        self.play_sound('./src/assets/sounds/snake_eat_bunny.wav')

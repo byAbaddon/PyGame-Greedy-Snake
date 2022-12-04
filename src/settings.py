@@ -14,7 +14,7 @@ pygame.init()
 # ========================================================================== display size
 CELL_NUMBER = 28
 BLOCK_SIZE = 30
-S_W = CELL_NUMBER * BLOCK_SIZE
+S_W = CELL_NUMBER * BLOCK_SIZE  # 840
 S_H = 640
 SCREEN = pygame.display.set_mode((S_W, S_H))
 FRAME_SIZE = 100

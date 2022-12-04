@@ -5,13 +5,15 @@ from src.classes.sound import Sound
 from src.classes.snake import Snake
 from src.classes.fruit import Fruit
 from src.classes.grid import Grid
+from src.classes.figure import Figure
 
 # ======================================================================== create Sprite groups
 snake_group = pygame.sprite.Group()
 fruit_group = pygame.sprite.Group()
+figure_group = pygame.sprite.Group()
 #
 # # add to all_sprite_groups
-all_spite_groups_dict = {'snake': snake_group, 'fruit': fruit_group}
+all_spite_groups_dict = {'snake': snake_group, 'fruit': fruit_group, 'figure': figure_group}
 #
 # # ======================================================================= initialize  Classes
 #
@@ -49,20 +51,29 @@ class GameState(Sound):
         if not self.is_bg_created:
             pass
             # Sound.background_music(self)
+            figure_group.add(Figure('./src/assets/images/figures/level_2.png'))
             self.is_bg_created = True
 
         if snake.is_eat_fruit:
-            fruit_group.empty()
             fruit_group.add(Fruit())
             snake.is_eat_fruit = False
 
+        for part in snake.body_list[1:]:
+            if part == fruit.fruit_sell_position:
+                print(part, fruit.fruit_sell_position)
+                print('fruit in body')
+                pygame.time.delay(20)
+                break
+                # fruit_group.empty()
+                # fruit_group.add(Fruit())
+
         # # =================================================== UPDATE
         Grid.draw_grid(self)
-        snake.update()
 
         # #  --------------------------- draw sprite group
         snake_group.draw(SCREEN)
         fruit_group.draw(SCREEN)
+        figure_group.draw(SCREEN)
         #
         # # # # --------------------------- update sprite group
         snake_group.update()
@@ -94,7 +105,8 @@ game_state = GameState()
 
 # ================================================================ create top Table for: score , energy and more
 
-
+SCREEN_UPDATE = pygame.USEREVENT
+pygame.time.set_timer(SCREEN_UPDATE, 150)
 # ============= Starting Game loop
 while True:
     SCREEN.fill(pygame.Color('black'))
@@ -102,5 +114,7 @@ while True:
     pygame.display.update()
     CLOCK.tick(snake.speed)
     # exit_game()
-
+    # for event in pygame.event.get():
+    #     if event.type == SCREEN_UPDATE:
+    #         snake.update()
 
