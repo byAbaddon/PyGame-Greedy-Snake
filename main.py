@@ -18,7 +18,7 @@ all_spite_groups_dict = {'snake': snake_group, 'fruit': fruit_group, 'figure': f
 # # ======================================================================= initialize  Classes
 #
 snake = Snake(all_spite_groups_dict)
-fruit = Fruit()
+fruit = Fruit(all_spite_groups_dict, snake)
 #
 #
 # # add to group
@@ -55,28 +55,20 @@ class GameState(Sound):
             self.is_bg_created = True
 
         if snake.is_eat_fruit:
-            fruit_group.add(Fruit())
+            fruit_group.add(Fruit(all_spite_groups_dict, snake))
             snake.is_eat_fruit = False
-
-        for part in snake.body_list[1:]:
-            if part == fruit.fruit_sell_position:
-                print(part, fruit.fruit_sell_position)
-                print('fruit in body')
-                pygame.time.delay(20)
-                break
-                # fruit_group.empty()
-                # fruit_group.add(Fruit())
 
         # # =================================================== UPDATE
         Grid.draw_grid(self)
 
         # #  --------------------------- draw sprite group
         snake_group.draw(SCREEN)
-        fruit_group.draw(SCREEN)
         figure_group.draw(SCREEN)
+        fruit_group.draw(SCREEN)
         #
         # # # # --------------------------- update sprite group
         snake_group.update()
+        fruit_group.update()
 
     def intro(self):
         pass
@@ -113,8 +105,3 @@ while True:
     game_state.state_manager()
     pygame.display.update()
     CLOCK.tick(snake.speed)
-    # exit_game()
-    # for event in pygame.event.get():
-    #     if event.type == SCREEN_UPDATE:
-    #         snake.update()
-

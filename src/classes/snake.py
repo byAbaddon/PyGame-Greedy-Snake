@@ -20,7 +20,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.pos = vec(self.rect.center)
         self.direction = vec(0, 0)  # Start UP
         self.direction_name = 'up'
-        self.speed = 5
+        self.speed = 6
         self.body = scale_image('./src/assets/images/snake/body_cross.png', BLOCK_SIZE, BLOCK_SIZE)
         self.queue = scale_image('./src/assets/images/snake/queue_up.png', BLOCK_SIZE, BLOCK_SIZE)
         self.body_list = [vec(self.start_x_pos, self.start_y_pos + i) for i in range(7)]
@@ -98,7 +98,8 @@ class Snake(pygame.sprite.Sprite, Sound):
     def check_snake_and_fruit_collide(self):
         for sprite in pygame.sprite.spritecollide(self, self.asg['fruit'], True, pygame.sprite.collide_mask):
             if sprite:
-                _, fruit_points, fruit_name = sprite.item_name.split('_')
+                # print(sprite.item_name)
+                _, fruit_name, fruit_points = sprite.item_name.split('_')
                 if fruit_name == 'rabbit':
                     Sound.snake_eat_rabbit(self)
                 else:
