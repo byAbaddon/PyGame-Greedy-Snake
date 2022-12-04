@@ -14,12 +14,18 @@ class Fruit(pygame.sprite.Sprite):
         self.item_name = str(self.random_weight_fruit).split('/')[-1][:-4]
         self.image = scale_image(self.random_weight_fruit, BLOCK_SIZE - 2, BLOCK_SIZE - 2).convert_alpha()
         self.rect = self.image.get_bounding_rect(min_alpha=1)
-        self.x_pos = randint(0, CELL_NUMBER - 1)
-        self.y_pos = randint(0, CELL_NUMBER - 11)
+        self.x_pos = randint(1, CELL_NUMBER - 2)  # 0, 1
+        self.y_pos = randint(1, CELL_NUMBER - 12)  # 0, 11
         self.fruit_sell_position = [self.x_pos, self.y_pos]
         self.rect = self.image.get_rect()
         self.rect.center = (self.x_pos * BLOCK_SIZE + self.image.get_width() // 2,
                             self.y_pos * BLOCK_SIZE + self.image.get_height() // 2)
+
+    def penalty_fruits(self):
+        fruit_group = self.asg['fruit']
+        for _ in range(3):
+            fruit_group.add(Fruit(self.asg, self.snake_data))
+            # self.image = './src/assets/images/beer/zero_cocktail_0.png'
 
     def check_fruit_and_snake_body_collide(self):
         for part in self.snake_data.body_list[1:]:
@@ -41,3 +47,6 @@ class Fruit(pygame.sprite.Sprite):
     def update(self):
         self.check_fruit_and_snake_body_collide()
         self.check_fruit_and_figure_collide()
+        if self.snake_data.is_penalty:
+            self.penalty_fruits()
+            self.snake_data.is_penalty = False

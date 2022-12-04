@@ -1,5 +1,4 @@
 import pygame
-
 from src.settings import S_W, S_H, SCREEN, BLOCK_SIZE
 
 

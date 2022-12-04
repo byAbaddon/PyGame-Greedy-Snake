@@ -15,7 +15,7 @@ class Sound:
         pygame.mixer.stop()
 
     def btn_click(self):
-        self.play_sound('./src/assets/sounds/buttons/click.wav')
+        self.play_sound('./src/assets/sounds/btn_one.wav')
 
     # Background
     def intro_music(self):
@@ -33,3 +33,6 @@ class Sound:
 
     def snake_eat_rabbit(self):
         self.play_sound('./src/assets/sounds/snake_eat_bunny.wav')
+
+    def snake_crash(self):
+        self.play_sound('./src/assets/sounds/crash.wav')

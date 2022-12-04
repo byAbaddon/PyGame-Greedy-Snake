@@ -6,6 +6,7 @@ from src.classes.snake import Snake
 from src.classes.fruit import Fruit
 from src.classes.grid import Grid
 from src.classes.figure import Figure
+from src.classes.table import Table
 
 # ======================================================================== create Sprite groups
 snake_group = pygame.sprite.Group()
@@ -26,6 +27,7 @@ snake_group.add(snake)
 fruit_group.add(fruit)
 
 # ==================================================================
+table = Table(snake, fruit)
 
 
 # Game State
@@ -48,18 +50,22 @@ class GameState(Sound):
         text_creator(f'Pos: x= {int(snake.pos.x)} y= {int(snake.pos.y)}', 'white', 86, 33, 22)
         text_creator(f'MousePos: x= {pygame.mouse.get_pos()}', 'white', 490, 5)
 
+        if snake.is_pause:
+            snake.is_pause = False
+            self.state = 'pause'
+
         if not self.is_bg_created:
-            pass
             # Sound.background_music(self)
             figure_group.add(Figure('./src/assets/images/figures/level_2.png'))
             self.is_bg_created = True
 
-        if snake.is_eat_fruit:
+        if snake.is_eat_fruit and not len(fruit_group):
             fruit_group.add(Fruit(all_spite_groups_dict, snake))
             snake.is_eat_fruit = False
 
         # # =================================================== UPDATE
         Grid.draw_grid(self)
+        table.update()
 
         # #  --------------------------- draw sprite group
         snake_group.draw(SCREEN)
@@ -77,7 +83,18 @@ class GameState(Sound):
         pass
 
     def start_pause(self):
-        pass
+        background_image('./src/assets/images/backgrounds/bg_pause.png')
+        text_creator('PAUSE', 'chartreuse4', S_W - 360, S_H - FRAME_SIZE - 250, 50)
+        text_creator('Press RETURN to continue...', 'bisque', S_W - 280, S_H - FRAME_SIZE - 10)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                Sound.btn_click(self)
+                if event.key == pygame.K_RETURN:
+                    self.state = 'game'
 
     # ========================================= state manager ...
     def state_manager(self):
