@@ -24,6 +24,15 @@ class Sound:
     def background_music(self):
         self.play_sound('./src/assets/sounds/Background_tango.mp3', 0.6, -1)
 
+    def add_penalty_fruits(self):
+        self.play_sound('./src/assets/sounds/add_penalty_fruits.mp3')
+
+    def time_over(self):
+        self.play_sound('./src/assets/sounds/time-over.wav')
+
+    def level_complete(self):
+        self.play_sound('./src/assets/sounds/level_complete.wav')
+
     # ===========================  SNAKE ===========================
     def snake_move(self):
         self.play_sound('./src/assets/sounds/snake_move_one.wav')
@@ -34,5 +43,10 @@ class Sound:
     def snake_eat_rabbit(self):
         self.play_sound('./src/assets/sounds/snake_eat_bunny.wav')
 
+    def snake_eat_frog(self):
+        self.play_sound('./src/assets/sounds/snake_eat_frog.wav')
+
     def snake_crash(self):
         self.play_sound('./src/assets/sounds/crash.wav')
+
+

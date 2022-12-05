@@ -5,22 +5,25 @@ from src.classes.sound import Sound
 
 
 class Snake(pygame.sprite.Sprite, Sound):
+    exit_pos = [S_W // 2 - BLOCK_SIZE, 0]
     start_time = pygame.time.get_ticks()
     COOLDOWN = 10
     points = 0
-    speed = 6  # FPS
-    current_snake_speed = 50
     lives = 3
     level = 1
-    eat_fruits_counter = 10
+    # - for reset in current game
     eat_timer = 60
+    speed = 6  # FPS
+    current_snake_speed = 50
+    fruits_counter = 1
     is_eat_fruit = False
     is_penalty = False
-    is_dead = False
+    is_level_complete = False
     is_pause = False
+    is_game_over = False
     start_x_pos = CELL_NUMBER // 2 - 1
     start_y_pos = CELL_NUMBER // 2 + 3
-
+    # 26 / 17
     def __init__(self, all_spite_groups_dict):
         pygame.sprite.Sprite.__init__(self)
         self.asg = all_spite_groups_dict
@@ -108,6 +111,18 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.speed += 0.4
         self.current_snake_speed += 10
 
+    def check_over_time_eat_fruit(self):
+        time_now = pygame.time.get_ticks()
+        if time_now - self.start_time > self.COOLDOWN:
+            self.start_time = time_now
+            self.eat_timer -= 1
+        if self.eat_timer <= 0:
+            self.eat_timer = 60
+            Sound.time_over(self)
+            Sound.add_penalty_fruits(self)
+            self.fruits_counter += 3
+            self.is_penalty = True
+
     def check_snake_and_fruit_collide(self):
         for sprite in pygame.sprite.spritecollide(self, self.asg['fruit'], True, pygame.sprite.collide_mask):
             if sprite:
@@ -115,45 +130,86 @@ class Snake(pygame.sprite.Sprite, Sound):
                 _, fruit_name, fruit_points = sprite.item_name.split('_')
                 if fruit_name == 'rabbit':
                     Sound.snake_eat_rabbit(self)
+                elif fruit_name == 'frog':
+                    Sound.snake_eat_frog(self)
                 else:
                     Sound.snake_eat(self)
                 self.points += int(fruit_points)
                 self.increase_body_snake()
                 self.increase_speed_snake()
-                self.eat_fruits_counter -= 1
+                self.fruits_counter -= 1
                 self.eat_timer = 60
                 self.is_eat_fruit = True
 
     def check_snake_and_figure_collide(self):
         for sprite in pygame.sprite.spritecollide(self, self.asg['figure'], False, pygame.sprite.collide_mask):
             if sprite:
-                self.snake_crash()
-
-    def timer(self):
-        time_now = pygame.time.get_ticks()
-        if time_now - self.start_time > self.COOLDOWN:
-            self.start_time = time_now
-            self.eat_timer -= 1
-
-    def check_over_time_eat_fruit(self):
-        pass
-        # todo:
-        # self.is_penalty = True
-
-
-    def check_level_complete(self):
-        if self.eat_fruits_counter == 0:
-            self.level += 1  # todo: if snake exit form level
+                self.snake_crash()  # go to crash method to reset data
 
     def check_crash_in_wall(self):
         BS = BLOCK_SIZE
         if BS > self.rect.x or self.rect.x > S_W - BS * 2 or self.rect.y > S_H - FRAME_SIZE - BS or self.rect.y < BS:
-            self.snake_crash()
+            self.snake_crash()  # go to crash method to reset data
 
     def snake_crash(self):
-        Sound.snake_crash(self)
-        self.lives -= 1
-        print('crash in wall')
+        if self.fruits_counter == 0 and self.rect.x == self.exit_pos[0] and self.rect.y <= 0:
+            self.level_complete()
+        else:
+            Sound.snake_crash(self)
+            self.lives -= 1
+            if self.lives == 0:
+                self.is_game_over = True
+            else:
+                self.start_level_again()
+
+    def check_level_complete(self):
+        if self.fruits_counter == 0:
+            exit_rect = pygame.Rect(self.exit_pos[0], self.exit_pos[1], BLOCK_SIZE, BLOCK_SIZE)
+            pygame.draw.rect(SCREEN, 'black', exit_rect)
+            self.eat_timer = 60
+            self.is_eat_fruit = False
+
+    def level_complete(self):
+        if not self.is_level_complete:
+            Sound.stop_all_sounds()
+            Sound.level_complete(self)
+            self.is_level_complete = True
+
+        if key_pressed(pygame.K_SPACE):
+            self.level += 1  # todo: if snake exit form level
+            self.reset_current_data()
+            print('complete')
+
+
+    def start_level_again(self):
+        self.reset_current_data()
+
+    def reset_current_data(self):
+        self.eat_timer = 60
+        self.speed = 6  # FPS
+        self.current_snake_speed = 50
+        self.fruits_counter = 10
+        self.is_eat_fruit = False
+        self.is_penalty = False
+        self.is_level_complete = False
+        self.is_pause = False
+        self.start_x_pos = CELL_NUMBER // 2 - 1
+        self.start_y_pos = CELL_NUMBER // 2 + 3
+
+    def reset_all_data(self):  # for new game
+        self.points = 0
+        self.lives = 3
+        self.level = 1
+        self.eat_timer = 60
+        self.speed = 6  # FPS
+        self.current_snake_speed = 50
+        self.fruits_counter = 10
+        self.is_eat_fruit = False
+        self.is_penalty = False
+        self.is_level_complete = False
+        self.is_pause = False
+        self.start_x_pos = CELL_NUMBER // 2 - 1
+        self.start_y_pos = CELL_NUMBER // 2 + 3
 
     def update(self):
         self.check_direction()
@@ -162,8 +218,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.move()
         self.check_snake_and_fruit_collide()
         self.check_snake_and_figure_collide()
-        self.timer()
         self.check_over_time_eat_fruit()
-        self.check_level_complete()
         self.check_crash_in_wall()
+        self.check_level_complete()
 

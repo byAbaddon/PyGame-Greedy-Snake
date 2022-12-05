@@ -10,8 +10,7 @@ class Table:
         self.image = pygame.image.load('./src/assets/images/frame/frame.png')
         self.rect = self.image.get_bounding_rect(min_alpha=1)
         self.rect.center = (2, S_H - FRAME_SIZE + 3)
-        self.height_score = 3000
-
+        self.height_score = 30000
 
     def draw_display_frame(self):
         table_rect = pygame.Rect(0, 0, S_W, S_H)
@@ -38,7 +37,7 @@ class Table:
 
         # label fruits left
         text_creator('Fruits:', 'chartreuse4', 520, S_H - 65)
-        text_creator(f'{self.snake_data.eat_fruits_counter}', 'chartreuse4', 580, S_H - 65)
+        text_creator(f'{self.snake_data.fruits_counter}', 'chartreuse4', 580, S_H - 65)
 
         # label time
         text_creator('Time:', 'chartreuse4', 520, S_H - 35)

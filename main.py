@@ -55,7 +55,7 @@ class GameState(Sound):
             self.state = 'pause'
 
         if not self.is_bg_created:
-            # Sound.background_music(self)
+            Sound.background_music(self)
             figure_group.add(Figure('./src/assets/images/figures/level_2.png'))
             self.is_bg_created = True
 
