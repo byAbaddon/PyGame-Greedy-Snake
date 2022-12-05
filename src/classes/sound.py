@@ -33,6 +33,9 @@ class Sound:
     def level_complete(self):
         self.play_sound('./src/assets/sounds/level_complete.wav')
 
+    def bonus_music(self):
+        self.play_sound('./src/assets/sounds/bonus_music.mp3', 0.8, - 1)
+
     # ===========================  SNAKE ===========================
     def snake_move(self):
         self.play_sound('./src/assets/sounds/snake_move_one.wav')
