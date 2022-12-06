@@ -25,6 +25,7 @@ class Snake(pygame.sprite.Sprite, Sound):
     is_exit = False
     is_pause = False
     is_game_over = False
+    is_back_to_game_state = False
     start_x_pos = CELL_NUMBER // 2 - 1
     start_y_pos = CELL_NUMBER // 2 + 3
 
@@ -47,8 +48,8 @@ class Snake(pygame.sprite.Sprite, Sound):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                Sound.snake_move(self)
-                if not self.is_exit:
+                if not self.is_exit:  # -----------------------prevent keys if level complete
+                    Sound.snake_move(self)
                     if event.key == pygame.K_UP:
                         if self.direction.y != 1:  # check is not same direction
                             self.direction = vec(0, -1)
@@ -161,7 +162,8 @@ class Snake(pygame.sprite.Sprite, Sound):
             self.is_exit = True
             self.level_complete()
         else:
-            Sound.snake_crash(self)
+            print('Crashhhh in waalllllllllllllllllll')
+            # Sound.snake_crash(self)
             self.lives -= 1
             if self.lives == 0:
                 self.is_game_over = True
@@ -177,6 +179,12 @@ class Snake(pygame.sprite.Sprite, Sound):
                 exit_rect = pygame.Rect(self.exit_pos[0], self.exit_pos[1], BLOCK_SIZE, BLOCK_SIZE)
                 pygame.draw.rect(SCREEN, 'black', exit_rect)
 
+    def draw_bonus_label(self):
+        bonus_img = pygame.image.load('./src/assets/images/frames/bonus_frame.png')
+        SCREEN.blit(bonus_img, [S_W // 3, S_H // 3 - 20])
+        text_creator('CONGRATULATIONS', 'red', S_W // 3 + 32, S_H // 3 + 26, 32)
+        text_creator(f'Level {self.level} - complete', 'yellow', S_W // 3 + 74, S_H // 3 + 55)
+        text_creator(f'BONUS - {self.level * 1000}', 'green', S_W // 3 + 90, S_H // 3 + 85)
 
     def level_complete(self):
         if not self.is_level_complete:
@@ -190,19 +198,11 @@ class Snake(pygame.sprite.Sprite, Sound):
         effect.update()
         text_creator('Press SPACE to continue...', 'white', S_W - 260, S_H - FRAME_SIZE - 15 )
         if key_pressed(pygame.K_SPACE):
-            self.level += 1  # todo: if snake exit form level
-            self.reset_current_data()
-            print('complete')
-
-    def draw_bonus_label(self):
-        bonus_img = pygame.image.load('./src/assets/images/frames/bonus_frame.png')
-        SCREEN.blit(bonus_img, [S_W // 3, S_H // 3 - 20])
-        text_creator('CONGRATULATIONS', 'red', S_W // 3 + 32, S_H // 3 + 26, 32)
-        text_creator(f'Level {self.level} - complete', 'yellow', S_W // 3 + 74, S_H // 3 + 55)
-        text_creator(f'BONUS - {self.level * 1000}', 'green', S_W // 3 + 90, S_H // 3 + 85)
+            self.level += 1
+            self.is_back_to_game_state = True
 
     def start_level_again(self):
-        self.reset_current_data()
+        self.is_back_to_game_state = True
 
     def reset_current_data(self):
         self.eat_timer = 60
@@ -214,6 +214,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.is_level_complete = False
         self.is_exit = False
         self.is_pause = False
+        self.is_back_to_game_state = False
         self.start_x_pos = CELL_NUMBER // 2 - 1
         self.start_y_pos = CELL_NUMBER // 2 + 3
 
@@ -230,6 +231,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.is_level_complete = False
         self.is_exit = False
         self.is_pause = False
+        self.is_back_to_game_state = False
         self.start_x_pos = CELL_NUMBER // 2 - 1
         self.start_y_pos = CELL_NUMBER // 2 + 3
 
