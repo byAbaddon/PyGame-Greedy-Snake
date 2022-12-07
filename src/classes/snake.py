@@ -150,25 +150,37 @@ class Snake(pygame.sprite.Sprite, Sound):
     def check_snake_and_figure_collide(self):
         for sprite in pygame.sprite.spritecollide(self, self.asg['figure'], False, pygame.sprite.collide_mask):
             if sprite:
-                self.snake_crash()  # go to crash method to reset data
+                print('Crash in figure')
+                self.check_is_alive()
+
+    def check_crash_in_body(self):
+        for body in self.body_list[1:]:
+            body_part = (int(body.x * BLOCK_SIZE + 15), int(body.y * BLOCK_SIZE + 15))
+            if self.rect.center == body_part:
+                print('Crash in body')
+                self.check_is_alive()
 
     def check_crash_in_wall(self):
         BS = BLOCK_SIZE
         if BS > self.rect.x or self.rect.x > S_W - BS * 2 or self.rect.y > S_H - FRAME_SIZE - BS or self.rect.y < BS:
-            self.snake_crash()  # go to crash method to reset data
-
-    def snake_crash(self):
-        if self.fruits_counter == 0 and self.rect.x == self.exit_pos[0] and self.rect.y <= 0:
-            self.is_exit = True
-            self.level_complete()
-        else:
-            print('Crashhhh in waalllllllllllllllllll')
-            # Sound.snake_crash(self)
-            self.lives -= 1
-            if self.lives == 0:
-                self.is_game_over = True
+            if self.fruits_counter == 0 and self.rect.x == self.exit_pos[0] and self.rect.y <= 0:
+                self.is_exit = True
+                self.level_complete()
             else:
-                self.start_level_again()
+                print('Crash in wall')
+                self.check_is_alive()
+
+    def check_is_alive(self):
+        Sound.snake_crash(self)
+        self.lives -= 1
+        table_rect = pygame.Rect(0, 0, S_W, S_H)
+        img = pygame.image.load(f'./src/assets/images/frames/full_frame_crash_1.png')
+        SCREEN.blit(img, table_rect)
+
+        if self.lives == 0:  # ---------------------- go to Game Over state
+            self.is_game_over = True
+        else:  # -------------------------------------start_level_again
+            self.is_back_to_game_state = True
 
     def check_level_complete(self):
         if self.fruits_counter == 0:
@@ -196,15 +208,22 @@ class Snake(pygame.sprite.Sprite, Sound):
             self.is_level_complete = True
         self.draw_bonus_label()
         effect.update()
-        text_creator('Press SPACE to continue...', 'white', S_W - 260, S_H - FRAME_SIZE - 15 )
+        text_creator('Press SPACE to continue...', 'white', S_W - 260, S_H - FRAME_SIZE - 15)
         if key_pressed(pygame.K_SPACE):
             self.level += 1
+            self.lives += 1
             self.is_back_to_game_state = True
 
-    def start_level_again(self):
-        self.is_back_to_game_state = True
-
     def reset_current_data(self):
+        self.image = scale_image('./src/assets/images/snake/head_up.png', BLOCK_SIZE, BLOCK_SIZE)
+        self.rect = self.image.get_bounding_rect(min_alpha=1)
+        self.rect.center = (self.start_x_pos * BLOCK_SIZE + 15, self.start_y_pos * BLOCK_SIZE + 15)
+        self.pos = vec(self.rect.center)
+        self.direction = vec(0, -1)  # Start UP
+        self.direction_name = 'up'
+        self.body = scale_image('./src/assets/images/snake/body_cross.png', BLOCK_SIZE, BLOCK_SIZE)
+        self.queue = scale_image('./src/assets/images/snake/queue_up.png', BLOCK_SIZE, BLOCK_SIZE)
+        self.body_list = [vec(self.start_x_pos, self.start_y_pos) for _ in range(5)]
         self.eat_timer = 60
         self.speed = 6  # FPS
         self.current_snake_speed = 50
@@ -215,10 +234,17 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.is_exit = False
         self.is_pause = False
         self.is_back_to_game_state = False
-        self.start_x_pos = CELL_NUMBER // 2 - 1
-        self.start_y_pos = CELL_NUMBER // 2 + 3
 
     def reset_all_data(self):  # for new game
+        self.image = scale_image('./src/assets/images/snake/head_up.png', BLOCK_SIZE, BLOCK_SIZE)
+        self.rect = self.image.get_bounding_rect(min_alpha=1)
+        self.rect.center = (self.start_x_pos * BLOCK_SIZE + 15, self.start_y_pos * BLOCK_SIZE + 15)
+        self.pos = vec(self.rect.center)
+        self.direction = vec(0, -1)  # Start UP
+        self.direction_name = 'up'
+        self.body = scale_image('./src/assets/images/snake/body_cross.png', BLOCK_SIZE, BLOCK_SIZE)
+        self.queue = scale_image('./src/assets/images/snake/queue_up.png', BLOCK_SIZE, BLOCK_SIZE)
+        self.body_list = [vec(self.start_x_pos, self.start_y_pos) for _ in range(5)]
         self.points = 0
         self.lives = 3
         self.level = 1
@@ -232,8 +258,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.is_exit = False
         self.is_pause = False
         self.is_back_to_game_state = False
-        self.start_x_pos = CELL_NUMBER // 2 - 1
-        self.start_y_pos = CELL_NUMBER // 2 + 3
+        self.is_game_over = False
 
     def update(self):
         self.check_direction()
@@ -241,10 +266,12 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.transform()
         self.draw()
         self.check_snake_and_fruit_collide()
-        self.check_snake_and_figure_collide()
         self.check_over_time_eat_fruit()
         self.check_level_complete()
+        self.check_snake_and_figure_collide()
         self.check_crash_in_wall()
+        self.check_crash_in_body()
+        text_creator(f'MousePos: x= {pygame.mouse.get_pos()}', 'white', 300, 15)
 
 
 

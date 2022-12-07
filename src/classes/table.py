@@ -4,17 +4,16 @@ from src.settings import *
 
 
 class Table:
-    def __init__(self, snake, fruit):
+    def __init__(self, snake):
         self.snake_data = snake
-        self.fruit_data = fruit
-        self.image = pygame.image.load('./src/assets/images/frames/frame.png')
+        self.image = pygame.image.load('./src/assets/images/frames/full_frame_2.png')
         self.rect = self.image.get_bounding_rect(min_alpha=1)
         self.rect.center = (2, S_H - FRAME_SIZE + 3)
         self.height_score = 30000
 
     def draw_display_frame(self):
         table_rect = pygame.Rect(0, 0, S_W, S_H)
-        SCREEN.blit(pygame.image.load('./src/assets/images/frames/full_frame_2.png'), table_rect)
+        SCREEN.blit(self.image, table_rect)
 
     def draw_labels_and_table_data(self):
         # label height_score
