@@ -19,6 +19,7 @@ all_spite_groups_dict = {'snake': snake_group, 'fruit': fruit_group, 'figure': f
 # # ======================================================================= initialize  Classes
 #
 snake = Snake(all_spite_groups_dict)
+fruit = Fruit(all_spite_groups_dict, snake)
 #
 # # add to group
 snake_group.add(snake)
@@ -57,8 +58,8 @@ class GameState(Sound):
             all_spite_groups_dict['figure'].add(Figure(f'./src/assets/images/figures/level_{snake.level}.png'))
 
         if snake.is_back_to_game_state:
-            pygame.time.delay(1500)
             Sound.stop_all_sounds()
+            pygame.time.delay(1500)
             fruit_group.empty()  # ================
             snake.reset_current_data()  # reset current snake data
             self.start_game_counter = 3  # restore start counter

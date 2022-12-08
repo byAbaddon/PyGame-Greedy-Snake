@@ -13,7 +13,7 @@ class Snake(pygame.sprite.Sprite, Sound):
     COOLDOWN = 10
     points = 0
     lives = 3
-    level = 1
+    level = 14
     # - for reset in current game
     eat_timer = 60
     speed = 6  # FPS
@@ -50,22 +50,18 @@ class Snake(pygame.sprite.Sprite, Sound):
             if event.type == pygame.KEYDOWN:
                 if not self.is_exit:  # -----------------------prevent keys if level complete
                     Sound.snake_move(self)
-                    if event.key == pygame.K_UP:
-                        if self.direction.y != 1:  # check is not same direction
-                            self.direction = vec(0, -1)
-                            self.direction_name = 'up'
-                    if event.key == pygame.K_DOWN:
-                        if self.direction.y != -1:  # check is not same direction
-                            self.direction = vec(0, 1)
-                            self.direction_name = 'down'
-                    if event.key == pygame.K_LEFT:
-                        if self.direction.x != 1:  # check is not same direction
-                            self.direction = vec(-1, 0)
-                            self.direction_name = 'left'
-                    if event.key == pygame.K_RIGHT:
-                        if self.direction.x != -1:  # check is not same direction
-                            self.direction = vec(1, 0)
-                            self.direction_name = 'right'
+                    if event.key == pygame.K_UP and self.direction.y != 1:  # check is not same direction
+                        self.direction = vec(0, -1)
+                        self.direction_name = 'up'
+                    if event.key == pygame.K_DOWN and self.direction.y != -1:
+                        self.direction = vec(0, 1)
+                        self.direction_name = 'down'
+                    if event.key == pygame.K_LEFT and self.direction.x != 1:
+                        self.direction = vec(-1, 0)
+                        self.direction_name = 'left'
+                    if event.key == pygame.K_RIGHT and self.direction.x != -1:
+                        self.direction = vec(1, 0)
+                        self.direction_name = 'right'
                     if event.key == pygame.K_p:
                         Sound.btn_click(self)
                         self.is_pause = True

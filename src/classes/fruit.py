@@ -41,9 +41,11 @@ class Fruit(pygame.sprite.Sprite):
         figure_group = self.asg['figure']
         sprite = pygame.sprite.groupcollide(fruit_group, figure_group, True, False, pygame.sprite.collide_mask)
         if sprite:
+            fruit_group.empty()
             fruit_group.add(Fruit(self.asg, self.snake_data))
 
     def update(self):
         self.check_fruit_and_snake_body_collide()
         self.check_fruit_and_figure_collide()
+
 
