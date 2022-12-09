@@ -55,6 +55,8 @@ class GameState(Sound):
             snake.reset_all_data()
             [all_spite_groups_dict[group].empty() for group in all_spite_groups_dict]
             all_spite_groups_dict['snake'].add(snake)
+            if snake.level > 15:
+                snake.level = 1
             all_spite_groups_dict['figure'].add(Figure(f'./src/assets/images/figures/level_{snake.level}.png'))
 
         if snake.is_back_to_game_state:
@@ -102,11 +104,13 @@ class GameState(Sound):
         fruit_group.update()
 
     def intro(self):
-        background_image('./src/assets/images/backgrounds/bg_snake.png')
-        text_creator('Start game - SPACE', 'firebrick', S_W - 280, S_H - 140, 35)
-        text_creator('Credits - C', 'firebrick', S_W - 280, S_H - 100, 35)
-        text_creator('Menu - M', 'firebrick', S_W - 280, S_H - 60, 35)
-        text_creator('Copyright ©2023', 'aquamarine', S_W - 150, S_H - 10,)
+        background_image('./src/assets/images/backgrounds/bg.png')
+        text_creator('GREEDY SNAKE', 'green4', 40, 60, 80, None, './src/fonts/candy.ttf')
+        text_creator('Start game - SPACE', 'beige', S_W // 4, S_H - 20, 30,None, './src/fonts/mario.ttf' )
+        text_creator('Credits - C', 'fuchsia', S_W // 3, S_H - 100, 30, None, './src/fonts/mario.ttf')
+        text_creator('Menu - M', 'red', S_W // 3, S_H - 60, 30, None, './src/fonts/mario.ttf')
+        text_creator('By Abaddon', 'orange', 10, S_H - 10, 15, None, './src/fonts/mario.ttf')
+        text_creator('Copyright ©2023', 'brown', S_W - 150, S_H - 10, 15, None, './src/fonts/mario.ttf')
 
         if key_pressed(pygame.K_SPACE):
             Sound.btn_click(self)

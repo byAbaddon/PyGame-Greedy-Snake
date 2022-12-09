@@ -1,3 +1,5 @@
+import time
+
 import pygame
 
 from src.settings import *
@@ -13,14 +15,15 @@ class Snake(pygame.sprite.Sprite, Sound):
     COOLDOWN = 10
     points = 0
     lives = 3
-    level = 14
+    level = 1
     # - for reset in current game
     eat_timer = 60
     speed = 6  # FPS
     current_snake_speed = 50
-    fruits_counter = 1
+    fruits_counter = 10
     is_eat_fruit = False
     is_penalty = False
+    penalty_counter = 0
     is_level_complete = False
     is_exit = False
     is_pause = False
@@ -123,6 +126,7 @@ class Snake(pygame.sprite.Sprite, Sound):
             Sound.time_over(self)
             Sound.add_penalty_fruits(self)
             self.fruits_counter += 3
+            self.penalty_counter += 3
             self.is_penalty = True
 
     def check_snake_and_fruit_collide(self):
@@ -201,6 +205,7 @@ class Snake(pygame.sprite.Sprite, Sound):
             Sound.bonus_music(self)
             self.points += self.level * 1000
             self.is_exit = True
+            self.penalty_counter = 0  # reset counter
             self.is_level_complete = True
         self.draw_bonus_label()
         effect.update()
@@ -223,7 +228,10 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.eat_timer = 60
         self.speed = 6  # FPS
         self.current_snake_speed = 50
-        self.fruits_counter = 10
+        if not self.is_penalty:
+            self.fruits_counter = 10
+        else:
+            self.fruits_counter = 10 + self.penalty_counter
         self.is_eat_fruit = False
         self.is_penalty = False
         self.is_level_complete = False
@@ -248,6 +256,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.speed = 6  # FPS
         self.current_snake_speed = 50
         self.fruits_counter = 10
+        self.penalty_counter = 0
         self.is_eat_fruit = False
         self.is_penalty = False
         self.is_level_complete = False

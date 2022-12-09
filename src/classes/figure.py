@@ -18,7 +18,6 @@ class Figure(pygame.sprite.Sprite):
         13: (S_W // 2, S_H // 2 - 35),
         14: (S_W // 2 - BLOCK_SIZE, S_H // 2 - 48),
         15: (S_W // 2 - BLOCK_SIZE - 1, BLOCK_SIZE * 6 - 16),
-
     }
 
     def __init__(self, image):

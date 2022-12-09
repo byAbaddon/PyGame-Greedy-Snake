@@ -17,7 +17,8 @@ class Table:
 
     def draw_labels_and_table_data(self):
         # label height_score
-        text_creator('Height Score:', 'chartreuse4', 40, S_H - 65)
+        # text_creator('Height Score:', 'chartreuse4', 40, S_H - 65)
+        text_creator('Score', 'white', 40, S_H - 65, 20, None, './src/fonts/mario.ttf')
         if self.snake_data.points >= self.height_score:
             self.height_score = self.snake_data.points
         text_creator(f'{self.height_score}', 'chartreuse4', 164, S_H - 65)

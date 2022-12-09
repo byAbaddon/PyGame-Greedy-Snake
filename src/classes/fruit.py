@@ -1,5 +1,3 @@
-import pygame.draw
-
 from src.settings import *
 
 
