@@ -104,13 +104,14 @@ class GameState(Sound):
         fruit_group.update()
 
     def intro(self):
-        background_image('./src/assets/images/backgrounds/bg.png')
+        background_image('./src/assets/images/backgrounds/bg_1.png')
         text_creator('GREEDY SNAKE', 'green4', 40, 60, 80, None, './src/fonts/candy.ttf')
-        text_creator('Start game - SPACE', 'beige', S_W // 4, S_H - 20, 30,None, './src/fonts/mario.ttf' )
-        text_creator('Credits - C', 'fuchsia', S_W // 3, S_H - 100, 30, None, './src/fonts/mario.ttf')
-        text_creator('Menu - M', 'red', S_W // 3, S_H - 60, 30, None, './src/fonts/mario.ttf')
+        # text_creator('Menu - M', 'red', 50, S_H - 64, 27, None, './src/fonts/mario.ttf')
+        text_creator('Menu - M', 'orangered3', S_W - 230, S_H - 160, 27, None, './src/fonts/mario.ttf')
+        text_creator('Credits - C', 'fuchsia', S_W - 230, S_H - 110, 29, None, './src/fonts/mario.ttf')
+        text_creator('Start game - SPACE', 'beige', S_W // 4 - 6, S_H - 24, 32, None, './src/fonts/mario.ttf')
         text_creator('By Abaddon', 'orange', 10, S_H - 10, 15, None, './src/fonts/mario.ttf')
-        text_creator('Copyright ©2023', 'brown', S_W - 150, S_H - 10, 15, None, './src/fonts/mario.ttf')
+        text_creator('Copyright ©2023', 'teal', S_W - 150, S_H - 10, 15, None, './src/fonts/mario.ttf')
 
         if key_pressed(pygame.K_SPACE):
             Sound.btn_click(self)
@@ -168,9 +169,11 @@ class GameState(Sound):
         if time_now - self.start_timer > self.COOLDOWN:
             self.start_game_counter -= 1
             self.start_timer = time_now
-        background_image('./src/assets/images/backgrounds/bg_snake.png')
-        text_creator(f'START AFTER: {self.start_game_counter}', 'black', 260, S_H // 2, 50)
-        # text_creator('Press RETURN to continue...', 'bisque', S_W - 280, S_H - FRAME_SIZE - 10)
+        background_image('./src/assets/images/backgrounds/bg.png', 20, -100)
+        text_creator('By Abaddon', 'orange', 10, S_H - 10, 15, None, './src/fonts/mario.ttf')
+        text_creator('Copyright ©2023', 'brown', S_W - 150, S_H - 10, 15, None, './src/fonts/mario.ttf')
+        text_creator(f'START AFTER: {self.start_game_counter}', 'purple', 260, S_H - 50, 40,
+                     None, './src/fonts/mario.ttf')
         if self.start_game_counter == 0:
             if snake.lives == 0:
                 self.reset_all_data_for_new_game = True
