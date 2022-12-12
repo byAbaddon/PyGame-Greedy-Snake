@@ -194,9 +194,9 @@ class Snake(pygame.sprite.Sprite, Sound):
     def draw_bonus_label(self):
         bonus_img = pygame.image.load('./src/assets/images/frames/bonus_frame.png')
         SCREEN.blit(bonus_img, [S_W // 3, S_H // 3 - 20])
-        text_creator('CONGRATULATIONS', 'red', S_W // 3 + 32, S_H // 3 + 26, 32)
-        text_creator(f'Level {self.level} - complete', 'yellow', S_W // 3 + 74, S_H // 3 + 55)
-        text_creator(f'BONUS - {self.level * 1000}', 'green', S_W // 3 + 90, S_H // 3 + 85)
+        text_creator('CONGRATULATIONS', 'red', S_W // 3 + 32, S_H // 3 + 26, 22, None, './src/fonts/mario.ttf')
+        text_creator(f'Level {self.level} - complete', 'yellow', S_W // 3 + 44, S_H // 3 + 55, 18, None, './src/fonts/mario.ttf')
+        text_creator(f'BONUS - {self.level * 1000}', 'green', S_W // 3 + 80, S_H // 3 + 85, 18, None, './src/fonts/mario.ttf')
 
     def level_complete(self):
         if not self.is_level_complete:
@@ -213,6 +213,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         if key_pressed(pygame.K_SPACE):
             self.level += 1
             self.lives += 1
+            self.is_penalty = False
             self.is_back_to_game_state = True
 
     def reset_current_data(self):
@@ -233,7 +234,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         else:
             self.fruits_counter = 10 + self.penalty_counter
         self.is_eat_fruit = False
-        self.is_penalty = False
+        # self.is_penalty = False
         self.is_level_complete = False
         self.is_exit = False
         self.is_pause = False

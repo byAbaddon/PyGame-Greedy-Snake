@@ -44,7 +44,6 @@ class GameState(Sound):
         self.reset_all_data_for_new_game = False
 
     def game(self):
-
         if self.reset_all_data_for_new_game:
             self.current_music = ''
             self.is_music_play = False
@@ -64,7 +63,7 @@ class GameState(Sound):
             pygame.time.delay(1500)
             fruit_group.empty()  # ================
             snake.reset_current_data()  # reset current snake data
-            self.start_game_counter = 3  # restore start counter
+            self.start_game_counter = 0  # restore start counter
             self.is_bg_created = False
             self.state = 'get_ready'
             return
@@ -167,7 +166,7 @@ class GameState(Sound):
     def get_ready(self):
         time_now = pygame.time.get_ticks()
         if time_now - self.start_timer > self.COOLDOWN:
-            self.start_game_counter -= 1
+            self.start_game_counter -= 3# 1
             self.start_timer = time_now
         background_image('./src/assets/images/backgrounds/bg.png', 20, -100)
         text_creator('By Abaddon', 'orange', 10, S_H - 10, 15, None, './src/fonts/mario.ttf')

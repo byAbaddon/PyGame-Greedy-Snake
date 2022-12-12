@@ -20,7 +20,7 @@ class Fruit(pygame.sprite.Sprite):
                             self.y_pos * BLOCK_SIZE + self.image.get_height() // 2)
 
     def check_is_penalty(self):
-        if self.snake_data.is_penalty:
+        if self.snake_data.is_penalty and self.snake_data.fruits_counter > 10:
             self.random_weight_fruit = './src/assets/images/penalty/zeroPoints_frog_0.png'
         else:
             self.random_weight_fruit = choices(self.fruits_list, weights=[10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1])[0]

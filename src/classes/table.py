@@ -17,39 +17,42 @@ class Table:
 
     def draw_labels_and_table_data(self):
         # label height_score
-        # text_creator('Height Score:', 'chartreuse4', 40, S_H - 65)
-        text_creator('Score', 'white', 40, S_H - 65, 20, None, './src/fonts/mario.ttf')
+        text_creator('Top Score', 'white', 40, S_H - 65, 20, None, './src/fonts/mario.ttf')
         if self.snake_data.points >= self.height_score:
             self.height_score = self.snake_data.points
-        text_creator(f'{self.height_score}', 'chartreuse4', 164, S_H - 65)
+        text_creator(f': {self.height_score}', 'white', 170, S_H - 65, 20, None, './src/fonts/mario.ttf')
 
         # label_score
-        text_creator('Current Score:', 'chartreuse4', 40, S_H - 35)
-        text_creator(f'{self.snake_data.points}', 'chartreuse4', 166, S_H - 35)
+        text_creator('You Score', 'white', 40, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        text_creator(f': {self.snake_data.points}', 'white', 168, S_H - 35, 20, None, './src/fonts/mario.ttf')
+
 
         # label snakes left
-        text_creator('Snakes:', 'chartreuse4', 280, S_H - 65)
-        text_creator(f'{self.snake_data.lives}', 'chartreuse4', 350, S_H - 65)
+        text_creator('Snakes:', 'white', 280, S_H - 65, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{self.snake_data.lives}', 'white', 374, S_H - 65, 20, None, './src/fonts/mario.ttf')
 
         # # label snake_speed
-        text_creator('Snake Speed:', 'chartreuse4', 280, S_H - 35)
-        text_creator(f'{self.snake_data.current_snake_speed}', 'chartreuse4', 400, S_H - 35)
+        text_creator('Snake Speed:', 'white', 280, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{self.snake_data.current_snake_speed}', 'white', 430, S_H - 35, 20, None, './src/fonts/mario.ttf')
 
         # label fruits left
-        text_creator('Fruits:', 'chartreuse4', 520, S_H - 65)
-        text_creator(f'{self.snake_data.fruits_counter}', 'chartreuse4', 580, S_H - 65)
+        text_creator('Fruits:', 'white', 520, S_H - 65, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{self.snake_data.fruits_counter}', 'white', 610, S_H - 65, 20, None, './src/fonts/mario.ttf')
 
         # label time
-        text_creator('Time:', 'chartreuse4', 520, S_H - 35)
-        text_creator(f'{self.snake_data.eat_timer}', 'chartreuse4', 580, S_H - 35)
+        text_creator('Time :', 'white', 520, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        if self.snake_data.eat_timer > 20:
+            text_creator(f'{self.snake_data.eat_timer}', 'white', 596, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        else:
+            text_creator(f'{self.snake_data.eat_timer}', 'red', 596, S_H - 35, 20, None, './src/fonts/mario.ttf')
 
         # label level
-        text_creator('Level:', 'chartreuse4', 720, S_H - 65)
-        text_creator(f'{self.snake_data.level}', 'chartreuse4', 780, S_H - 65)
+        text_creator('Level:', 'white', 710, S_H - 65, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{self.snake_data.level}', 'chartreuse4', 786, S_H - 65, 20, None, './src/fonts/mario.ttf')
 
         # label FPS
-        text_creator('FPS:', 'chartreuse4', 720, S_H - 35)
-        text_creator(f'{ int(CLOCK.get_fps())}', 'chartreuse4', 780, S_H - 35)
+        text_creator('FPS:', 'white', 710, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{ int(CLOCK.get_fps())}', 'white', 760, S_H - 35, 20, None, './src/fonts/mario.ttf')
 
     def update(self):
         self.draw_display_frame()
