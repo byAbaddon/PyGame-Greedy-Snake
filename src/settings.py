@@ -10,7 +10,7 @@ pygame.init()
 # pygame.mixer.init()
 
 # hide mouse from game window
-# pygame.mouse.set_visible(False)
+pygame.mouse.set_visible(False)
 # ========================================================================== display size
 CELL_NUMBER = 28
 BLOCK_SIZE = 30

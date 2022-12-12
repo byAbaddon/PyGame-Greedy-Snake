@@ -37,7 +37,6 @@ class GameState(Sound):
 
     def __init__(self,):
         self.state = 'intro'
-        self.current_music = ''
         self.is_music_play = False
         self.background = None
         self.is_bg_created = False
@@ -45,7 +44,6 @@ class GameState(Sound):
 
     def game(self):
         if self.reset_all_data_for_new_game:
-            self.current_music = ''
             self.is_music_play = False
             self.background = None
             self.is_bg_created = False
@@ -63,7 +61,7 @@ class GameState(Sound):
             pygame.time.delay(1500)
             fruit_group.empty()  # ================
             snake.reset_current_data()  # reset current snake data
-            self.start_game_counter = 0  # restore start counter
+            self.start_game_counter = 3  # restore start counter
             self.is_bg_created = False
             self.state = 'get_ready'
             return
@@ -87,6 +85,8 @@ class GameState(Sound):
         if snake.is_game_over:
             Sound.stop_all_sounds()
             pygame.time.delay(1500)
+            Sound.pistol_gun(self)
+            Sound.game_over_music(self)
             self.state = 'game_over'
 
         # # =================================================== UPDATE
@@ -103,6 +103,9 @@ class GameState(Sound):
         fruit_group.update()
 
     def intro(self):
+        if not self.is_music_play:
+            Sound.intro_music(self)
+            self.is_music_play = True
         background_image('./src/assets/images/backgrounds/bg_1.png')
         text_creator('GREEDY SNAKE', 'green4', 40, 60, 80, None, './src/fonts/candy.ttf')
         # text_creator('Menu - M', 'red', 50, S_H - 64, 27, None, './src/fonts/mario.ttf')
@@ -115,6 +118,7 @@ class GameState(Sound):
         if key_pressed(pygame.K_SPACE):
             Sound.btn_click(self)
             self.start_game_counter = 3
+            Sound.stop_all_sounds()
             self.state = 'get_ready'
         if key_pressed(pygame.K_c):
             Sound.btn_click(self)
@@ -133,7 +137,7 @@ class GameState(Sound):
 
     def credits(self):
         # background_image('./src/assets/images/backgrounds/bg_EMPTY.png')
-        text_creator('CREDITS', 'slateblue3', S_W // 2 - 60, 40, 40, None, None, True)
+        text_creator('CREDITS', 'slateblue3', S_W // 2 - 100, 40, 36, None, './src/fonts/born.ttf', True)
         text_creator('version: 1.0.0-beta', 'cornsilk', S_W - 130, 20, 20)
 
         text_creator('Free images:', 'brown', 110, 100, 35)
@@ -166,7 +170,7 @@ class GameState(Sound):
     def get_ready(self):
         time_now = pygame.time.get_ticks()
         if time_now - self.start_timer > self.COOLDOWN:
-            self.start_game_counter -= 3# 1
+            self.start_game_counter -= 1
             self.start_timer = time_now
         background_image('./src/assets/images/backgrounds/bg.png', 20, -100)
         text_creator('By Abaddon', 'orange', 10, S_H - 10, 15, None, './src/fonts/mario.ttf')
@@ -180,9 +184,9 @@ class GameState(Sound):
         exit_game()
 
     def start_pause(self):
-        background_image('./src/assets/images/backgrounds/bg_pause.png')
-        text_creator('PAUSE', 'chartreuse4', S_W - 360, S_H - FRAME_SIZE - 250, 50)
-        text_creator('Press RETURN to continue...', 'bisque', S_W - 280, S_H - FRAME_SIZE - 10)
+        background_image('./src/assets/images/backgrounds/bg_pause_2.png')
+        text_creator('PAUSE', 'red3', S_W // 2, S_H  // 2 - 30, 80, None, './src/fonts/born.ttf')
+        text_creator('Press RETURN to continue...', 'bisque', S_W - 280, S_H - 30)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -197,6 +201,8 @@ class GameState(Sound):
         background_image('./src/assets/images/backgrounds/bg_game_over.png')
         text_creator('Press RETURN to back...', 'cornsilk', S_W - 200, S_H - 10, 24)
         if key_pressed(pygame.K_RETURN):
+            Sound.stop_all_sounds()
+            Sound.intro_music(self)
             self.reset_all_data_for_new_game = True
             self.state = 'intro'
         exit_game()
@@ -223,10 +229,10 @@ class GameState(Sound):
 #  ================================ create new GameState
 game_state = GameState()
 
-# ================================================================ create top Table for: score , energy and more
 
-SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE, 150)
+# SCREEN_UPDATE = pygame.USEREVENT
+# pygame.time.set_timer(SCREEN_UPDATE, 150)
+
 # ============= Starting Game loop
 while True:
     SCREEN.fill(pygame.Color('black'))

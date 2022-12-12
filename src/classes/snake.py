@@ -106,11 +106,16 @@ class Snake(pygame.sprite.Sprite, Sound):
         # self.rect.center = (self.body_list[:1][0],self.body_list[:1][1])
 
     def increase_body_snake(self):  # add element to body snake
-        get_last_element_pos = self.body_list[-1]
+        # add only one element
+        # copy = self.body_list
+        # copy.insert(1, copy[1])
+        # self.body_list = copy
+        # ---------------------------------------------add more elements
+        get_last_element_pos = self.body_list[1]
         # add three new element to queue snake
         number_add_elements = 6
         for _ in range(number_add_elements):
-            self.body_list.append(vec(get_last_element_pos))
+            self.body_list.insert( -1, vec(get_last_element_pos))
 
     def increase_speed_snake(self):  # increase snake speed
         self.speed += 0.4
@@ -184,6 +189,8 @@ class Snake(pygame.sprite.Sprite, Sound):
 
     def check_level_complete(self):
         if self.fruits_counter == 0:
+            if self.is_eat_fruit:
+                Sound.fruits_finish(self)  # no more fruits play sound
             self.eat_timer = 60
             self.is_eat_fruit = False
             queue_block_pos = self.body_list[-1]
@@ -277,7 +284,6 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.check_snake_and_figure_collide()
         self.check_crash_in_wall()
         self.check_crash_in_body()
-        text_creator(f'MousePos: x= {pygame.mouse.get_pos()}', 'white', 300, 15)
 
 
 

@@ -19,10 +19,16 @@ class Sound:
 
     # Background
     def intro_music(self):
-        self.play_sound('./src/assets/sounds/game_musics/intro.mp3')
+        self.play_sound('./src/assets/sounds/intro_music.mp3', 0.6, -1)
 
     def background_music(self):
         self.play_sound('./src/assets/sounds/Background_tango.mp3', 0.6, -1)
+
+    def game_over_music(self):
+        self.play_sound('./src/assets/sounds/game_over_music.mp3', 0.6, -1)
+
+    def bonus_music(self):
+        self.play_sound('./src/assets/sounds/bonus_music.mp3', 0.8, - 1)
 
     def add_penalty_fruits(self):
         self.play_sound('./src/assets/sounds/add_penalty_fruits.mp3')
@@ -30,11 +36,14 @@ class Sound:
     def time_over(self):
         self.play_sound('./src/assets/sounds/time-over.wav')
 
+    def fruits_finish(self):
+        self.play_sound('./src/assets/sounds/fruits_finish.wav')
+
     def level_complete(self):
         self.play_sound('./src/assets/sounds/level_complete.wav')
 
-    def bonus_music(self):
-        self.play_sound('./src/assets/sounds/bonus_music.mp3', 0.8, - 1)
+    def pistol_gun(self):
+        self.play_sound('./src/assets/sounds/pistol_gun.wav', 0.9)
 
     # ===========================  SNAKE ===========================
     def snake_move(self):
