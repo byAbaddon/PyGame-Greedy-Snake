@@ -10,12 +10,16 @@ effect = FallEffect()
 
 
 class Snake(pygame.sprite.Sprite, Sound):
+    statistics_dict = {'cherry': 11, 'banana' :4, 'grapes' : 6, 'kivi' : 2, 'pear': 1, 'rabbit' : 3,
+                       'apple' :3, 'plum' : 3, 'strawberry' : 22, 'watermelon' : 33, 'frog' :3 , 'orange': 1
+ }
     exit_pos = [S_W // 2 - BLOCK_SIZE, 0]
     start_time = pygame.time.get_ticks()
     COOLDOWN = 10
     points = 0
     lives = 3
     level = 1
+    scrolling_game = 0
     # - for reset in current game
     eat_timer = 60
     speed = 6  # FPS
@@ -23,6 +27,8 @@ class Snake(pygame.sprite.Sprite, Sound):
     fruits_counter = 10
     is_eat_fruit = False
     is_penalty = False
+    is_increase_body_snake = False
+    counter_increase_body_parts = 6
     penalty_counter = 0
     is_level_complete = False
     is_exit = False
@@ -53,7 +59,7 @@ class Snake(pygame.sprite.Sprite, Sound):
             if event.type == pygame.KEYDOWN:
                 if not self.is_exit:  # -----------------------prevent keys if level complete
                     Sound.snake_move(self)
-                    if event.key == pygame.K_UP and self.direction.y != 1:  # check is not same direction
+                    if event.key == pygame.K_UP and self.direction.y != 1: # check is not same direction
                         self.direction = vec(0, -1)
                         self.direction_name = 'up'
                     if event.key == pygame.K_DOWN and self.direction.y != -1:
@@ -99,12 +105,21 @@ class Snake(pygame.sprite.Sprite, Sound):
                 SCREEN.blit(self.queue, block_rec)
 
     def move(self):  # move snake
-        copy_body_list = self.body_list[:-1]
-        copy_body_list.insert(0, self.body_list[0] + self.direction)
-        self.body_list = copy_body_list
+        if self.is_increase_body_snake:
+            self.counter_increase_body_parts -= 1
+            if self.counter_increase_body_parts > -1:
+                copy = self.body_list
+                copy.insert(0, copy[0] + self.direction)
+                self.body_list = copy
+            else:
+                self.counter_increase_body_parts = 6
+                self.is_increase_body_snake = False
+        else:
+            copy_body_list = self.body_list[:-1]
+            copy_body_list.insert(0, self.body_list[0] + self.direction)
+            self.body_list = copy_body_list
 
-        # self.rect.center = (self.body_list[:1][0],self.body_list[:1][1])
-
+    # ----------- not used
     def increase_body_snake(self):  # add element to body snake
         # add only one element
         # copy = self.body_list
@@ -116,7 +131,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         number_add_elements = 6
         for _ in range(number_add_elements):
             self.body_list.insert( -1, vec(get_last_element_pos))
-
+    # -------------
     def increase_speed_snake(self):  # increase snake speed
         self.speed += 0.4
         self.current_snake_speed += 10
@@ -146,11 +161,17 @@ class Snake(pygame.sprite.Sprite, Sound):
                 else:
                     Sound.snake_eat(self)
                 self.points += int(fruit_points)
-                self.increase_body_snake()
+                # self.increase_body_snake()
+                self.is_increase_body_snake = True
                 self.increase_speed_snake()
                 self.fruits_counter -= 1
                 self.eat_timer = 60
                 self.is_eat_fruit = True
+
+                # add statistics
+                if fruit_name not in self.statistics_dict:
+                    self.statistics_dict[fruit_name] = 0
+                self.statistics_dict[fruit_name] += 1
 
     def check_snake_and_figure_collide(self):
         for sprite in pygame.sprite.spritecollide(self, self.asg['figure'], False, pygame.sprite.collide_mask):
@@ -246,6 +267,8 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.is_exit = False
         self.is_pause = False
         self.is_back_to_game_state = False
+        self.counter_increase_body_parts = 6
+        self.is_increase_body_snake = False
 
     def reset_all_data(self):  # for new game
         self.image = scale_image('./src/assets/images/snake/head_up.png', BLOCK_SIZE, BLOCK_SIZE)
@@ -260,6 +283,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.points = 0
         self.lives = 3
         self.level = 1
+        self.scrolling_game = 0
         self.eat_timer = 60
         self.speed = 6  # FPS
         self.current_snake_speed = 50
@@ -272,6 +296,8 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.is_pause = False
         self.is_back_to_game_state = False
         self.is_game_over = False
+        self.counter_increase_body_parts = 6
+        self.is_increase_body_snake = False
 
     def update(self):
         self.check_direction()

@@ -23,23 +23,13 @@ FRAME_SIZE = 100
 #pygame.display.set_icon(programIcon)
 
 # ========================================================================== add caption
-pygame.display.set_caption('*** Snake Bite ***', 'default_icon')
+pygame.display.set_caption('*** Greedy Snake ***', 'default_icon')
 
 # ========================================================================== global const
 # clock frames
 CLOCK = pygame.time.Clock()
 FPS = 60
 # ------------------------------
-
-# screen transition animation
-# def screen_transition_animation(pic='./src/assets/images/frames/bg_statistic.png'):
-#     global transition_counter
-#     image = pygame.image.load(pic)
-#     SCREEN.blit(image, [0, transition_counter + TOP_FRAME_SIZE])
-#     if transition_counter < 0:
-#         transition_counter += 10
-#     return transition_counter
-
 
 # draw background
 def background_image(image, x=0, y=0, is_image_scaled=False):

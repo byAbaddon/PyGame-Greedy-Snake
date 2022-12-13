@@ -34,6 +34,11 @@ class GameState(Sound):
     COOLDOWN = 1000  # milliseconds
     start_timer = pygame.time.get_ticks()
     start_game_counter = 3
+    radius = 2
+    cord_x = S_W // 2 - 110
+    cord_y = S_W // 3 - 6
+    cord_x_aye = S_W // 2 - 110
+    aye_counter = 0
 
     def __init__(self,):
         self.state = 'intro'
@@ -41,6 +46,7 @@ class GameState(Sound):
         self.background = None
         self.is_bg_created = False
         self.reset_all_data_for_new_game = False
+
 
     def game(self):
         if self.reset_all_data_for_new_game:
@@ -53,6 +59,7 @@ class GameState(Sound):
             [all_spite_groups_dict[group].empty() for group in all_spite_groups_dict]
             all_spite_groups_dict['snake'].add(snake)
             if snake.level > 15:
+                snake.scrolling_game += 1
                 snake.level = 1
             all_spite_groups_dict['figure'].add(Figure(f'./src/assets/images/figures/level_{snake.level}.png'))
 
@@ -200,6 +207,62 @@ class GameState(Sound):
     def game_over(self):
         background_image('./src/assets/images/backgrounds/bg_game_over.png')
         text_creator('Press RETURN to back...', 'cornsilk', S_W - 200, S_H - 10, 24)
+
+        text_creator('You reached :', 'goldenrod4', 10, 24, 28, None, './src/fonts/born.ttf', True)
+        text_creator(f'Points: {snake.points}', 'brown', 30, 90, 25, None, './src/fonts/mario.ttf')
+        text_creator(f'Level: {snake.level}','springgreen4', 30, 140, 25, None, './src/fonts/mario.ttf')
+        text_creator(f'Scrolling : {snake.scrolling_game}', 'wheat', 30, 190, 25, None, './src/fonts/mario.ttf')
+        # --------------- statistics
+        text_creator('Statistics :', 'goldenrod4', S_W - 280, 21, 28, None, './src/fonts/born.ttf', True)
+        sort_by_values = sorted(snake.statistics_dict.items(), key=lambda v: -v[1])
+
+        for i in range(len(sort_by_values)):
+            fruit, count = sort_by_values[i]
+            image = scale_image(f'src/assets/images/fruits/fruits_pic/{fruit}.png', 28, 28)
+            if i < 4:
+                SCREEN.blit(image, [S_W - 280 , 50 + i * 45])
+                text_creator(f'- {count}', 'white', S_W - 245, 70 + i * 43)
+            elif i < 8:
+                i -= 4
+                SCREEN.blit(image, [S_W - 190, 50 + i * 45])
+                text_creator(f'- {count}', 'white', S_W - 155, 70 + i * 43)
+            else:
+                i -= 8
+                SCREEN.blit(image, [S_W - 100, 50 + i * 45])
+                text_creator(f'- {count}', 'white', S_W - 65, 70 + i * 43)
+
+
+
+        time_now = pygame.time.get_ticks()
+        if time_now - self.start_timer > self.COOLDOWN - 500:
+            self.start_timer = time_now
+            if self.radius < 4:
+                self.radius += 1
+            else:
+                self.cord_y += 10
+                if self.cord_y > S_H // 2:
+                    self.cord_y = S_W // 3 - 6
+            # move aye
+            self.aye_counter += 1
+            if self.aye_counter < 4:
+                self.cord_x_aye -= 1
+            else:
+                if self.aye_counter < 7:
+                    self.cord_x_aye += 1
+                else:
+                    self.aye_counter = 0
+
+        # draw circle
+        pygame.draw.circle(SCREEN, 'red', (S_W // 2 - 107, S_W // 3 - 6), self.radius)
+        # draw rect
+        pygame.draw.rect(SCREEN, 'red', (self.cord_x, self.cord_y, 2, 4))
+
+        # draw circle ayes
+        pygame.draw.circle(SCREEN, 'white', (self.cord_x_aye + 168, S_W // 3 + 8), 4)
+        pygame.draw.circle(SCREEN, 'white', (self.cord_x_aye + 194, S_W // 3 + 8), 4)
+        pygame.draw.circle(SCREEN, 'blue', (self.cord_x_aye + 168, S_W // 3 + 8), 3)
+        pygame.draw.circle(SCREEN, 'blue', (self.cord_x_aye + 194, S_W // 3 + 8), 3)
+
         if key_pressed(pygame.K_RETURN):
             Sound.stop_all_sounds()
             Sound.intro_music(self)
