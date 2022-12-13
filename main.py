@@ -46,7 +46,7 @@ class GameState(Sound):
         self.background = None
         self.is_bg_created = False
         self.reset_all_data_for_new_game = False
-
+        self.is_grid_system = False
 
     def game(self):
         if self.reset_all_data_for_new_game:
@@ -96,8 +96,16 @@ class GameState(Sound):
             Sound.game_over_music(self)
             self.state = 'game_over'
 
+        # --------------------------  switch on/of to Grid system
+        if check_key_pressed(pygame.K_g):
+            if not self.is_grid_system:
+                self.is_grid_system = True
+            else:
+                self.is_grid_system = False
+
         # # =================================================== UPDATE
-        Grid.draw_grid(self)
+        if self.is_grid_system:
+            Grid.draw_grid(self)
         table.update()
 
         # #  --------------------------- draw sprite group

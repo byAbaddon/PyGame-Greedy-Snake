@@ -10,9 +10,7 @@ effect = FallEffect()
 
 
 class Snake(pygame.sprite.Sprite, Sound):
-    statistics_dict = {'cherry': 11, 'banana' :4, 'grapes' : 6, 'kivi' : 2, 'pear': 1, 'rabbit' : 3,
-                       'apple' :3, 'plum' : 3, 'strawberry' : 22, 'watermelon' : 33, 'frog' :3 , 'orange': 1
- }
+    statistics_dict = {}
     exit_pos = [S_W // 2 - BLOCK_SIZE, 0]
     start_time = pygame.time.get_ticks()
     COOLDOWN = 10
@@ -41,7 +39,7 @@ class Snake(pygame.sprite.Sprite, Sound):
     def __init__(self, all_spite_groups_dict):
         pygame.sprite.Sprite.__init__(self)
         self.asg = all_spite_groups_dict
-        self.image = scale_image('./src/assets/images/snake/head_up.png', BLOCK_SIZE, BLOCK_SIZE)
+        self.image = scale_image('./src/assets/images/snake/head_up_s.png', BLOCK_SIZE, BLOCK_SIZE)
         self.rect = self.image.get_bounding_rect(min_alpha=1)
         self.rect.center = (self.start_x_pos * BLOCK_SIZE + 15, self.start_y_pos * BLOCK_SIZE + 15)
         self.pos = vec(self.rect.center)
