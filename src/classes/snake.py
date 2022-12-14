@@ -1,5 +1,3 @@
-import time
-
 import pygame
 
 from src.settings import *
@@ -7,7 +5,6 @@ from src.classes.sound import Sound
 from src.classes.fall_effect import FallEffect
 
 effect = FallEffect()
-
 
 class Snake(pygame.sprite.Sprite, Sound):
     statistics_dict = {}
@@ -35,6 +32,7 @@ class Snake(pygame.sprite.Sprite, Sound):
     is_back_to_game_state = False
     start_x_pos = CELL_NUMBER // 2 - 1
     start_y_pos = CELL_NUMBER // 2 + 3
+    directions_archive = []
 
     def __init__(self, all_spite_groups_dict):
         pygame.sprite.Sprite.__init__(self)
@@ -47,7 +45,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.direction_name = 'up'
         self.body = scale_image('./src/assets/images/snake/body_cross.png', BLOCK_SIZE, BLOCK_SIZE)
         self.queue = scale_image('./src/assets/images/snake/queue_up.png', BLOCK_SIZE, BLOCK_SIZE)
-        self.body_list = [vec(self.start_x_pos, self.start_y_pos) for _ in range(5)]
+        self.body_list = [vec(self.start_x_pos, self.start_y_pos + i) for i in range(5)]
 
     def check_direction(self):
         for event in pygame.event.get():
@@ -72,6 +70,9 @@ class Snake(pygame.sprite.Sprite, Sound):
                     if event.key == pygame.K_p:
                         Sound.btn_click(self)
                         self.is_pause = True
+                    # get and save last two directions
+                    self.directions_archive.append(self.direction)
+                    self.directions_archive = self.directions_archive[-2:]
 
     def transform(self):
         self.image = pygame.image.load(f'./src/assets/images/snake/head_{self.direction_name}_s.png')
@@ -103,22 +104,40 @@ class Snake(pygame.sprite.Sprite, Sound):
                 SCREEN.blit(self.queue, block_rec)
 
     def move(self):  # move snake
-        if self.is_increase_body_snake:
-            self.counter_increase_body_parts -= 1
-            if self.counter_increase_body_parts > -1:
-                copy = self.body_list
-                copy.insert(0, copy[0] + self.direction)
-                self.body_list = copy
+        head = [self.rect.x // BLOCK_SIZE , self.rect.y // BLOCK_SIZE]
+        if head + self.direction == self.body_list[1]: # FIX BUG head in first block body
+            for direction in self.directions_archive:
+                self.direction = direction
+                if self.is_increase_body_snake:
+                    self.counter_increase_body_parts -= 1
+                    if self.counter_increase_body_parts > -1:
+                        copy = self.body_list
+                        copy.insert(0, copy[0] + self.direction)
+                        self.body_list = copy
+                    else:
+                        self.counter_increase_body_parts = 6
+                        self.is_increase_body_snake = False
+                else:
+                    copy_body_list = self.body_list[:-1]
+                    copy_body_list.insert(0, self.body_list[0] + self.direction)
+                    self.body_list = copy_body_list
+        else: # ----------------------------------------work without BUG
+            if self.is_increase_body_snake:
+                self.counter_increase_body_parts -= 1
+                if self.counter_increase_body_parts > -1:
+                    copy = self.body_list
+                    copy.insert(0, copy[0] + self.direction)
+                    self.body_list = copy
+                else:
+                    self.counter_increase_body_parts = 6
+                    self.is_increase_body_snake = False
             else:
-                self.counter_increase_body_parts = 6
-                self.is_increase_body_snake = False
-        else:
-            copy_body_list = self.body_list[:-1]
-            copy_body_list.insert(0, self.body_list[0] + self.direction)
-            self.body_list = copy_body_list
+                copy_body_list = self.body_list[:-1]
+                copy_body_list.insert(0, self.body_list[0] + self.direction)
+                self.body_list = copy_body_list
 
     # ----------- not used
-    def increase_body_snake(self):  # add element to body snake
+    def increase_body_snake(self):  # add just one element to body snake
         # add only one element
         # copy = self.body_list
         # copy.insert(1, copy[1])
@@ -299,15 +318,16 @@ class Snake(pygame.sprite.Sprite, Sound):
 
     def update(self):
         self.check_direction()
-        self.move()
         self.transform()
+        self.move()
         self.draw()
-        self.check_snake_and_fruit_collide()
         self.check_over_time_eat_fruit()
-        self.check_level_complete()
+        self.check_snake_and_fruit_collide()
         self.check_snake_and_figure_collide()
-        self.check_crash_in_wall()
         self.check_crash_in_body()
+        self.check_crash_in_wall()
+        self.check_level_complete()
+
 
 
 

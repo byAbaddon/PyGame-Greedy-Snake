@@ -7,7 +7,7 @@ class Table:
         self.image = pygame.image.load('./src/assets/images/frames/full_frame_2.png')
         self.rect = self.image.get_bounding_rect(min_alpha=1)
         self.rect.center = (2, S_H - FRAME_SIZE + 3)
-        self.height_score = 30000
+        self.height_score = 150000
 
     def draw_display_frame(self):
         table_rect = pygame.Rect(0, 0, S_W, S_H)

@@ -130,15 +130,15 @@ class GameState(Sound):
         text_creator('By Abaddon', 'orange', 10, S_H - 10, 15, None, './src/fonts/mario.ttf')
         text_creator('Copyright ©2023', 'teal', S_W - 150, S_H - 10, 15, None, './src/fonts/mario.ttf')
 
-        if key_pressed(pygame.K_SPACE):
+        if check_key_pressed(pygame.K_SPACE):
             Sound.btn_click(self)
             self.start_game_counter = 3
             Sound.stop_all_sounds()
             self.state = 'get_ready'
-        if key_pressed(pygame.K_c):
+        if check_key_pressed(pygame.K_c):
             Sound.btn_click(self)
             self.state = 'credits'
-        if key_pressed(pygame.K_m):
+        if check_key_pressed(pygame.K_m):
             Sound.btn_click(self)
             self.state = 'menu'
         exit_game()
@@ -146,7 +146,7 @@ class GameState(Sound):
     def menu(self):
         background_image('./src/assets/images/backgrounds/bg_menu.png')
         text_creator('Press RETURN to back...', 'cornsilk', S_W - 200, S_H - 10, 24)
-        if key_pressed(pygame.K_RETURN):
+        if check_key_pressed(pygame.K_RETURN):
             self.state = 'intro'
         exit_game()
 
@@ -177,7 +177,7 @@ class GameState(Sound):
 
         text_creator('Press RETURN to back...', 'cornsilk', S_W - 200, S_H - 10, 24)
 
-        if key_pressed(pygame.K_RETURN):
+        if check_key_pressed(pygame.K_RETURN):
             Sound.btn_click(self)
             self.state = 'intro'
         exit_game()
@@ -299,7 +299,6 @@ class GameState(Sound):
 
 #  ================================ create new GameState
 game_state = GameState()
-
 
 # SCREEN_UPDATE = pygame.USEREVENT
 # pygame.time.set_timer(SCREEN_UPDATE, 150)
