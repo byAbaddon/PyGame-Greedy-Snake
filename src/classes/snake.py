@@ -7,6 +7,7 @@ from src.classes.fall_effect import FallEffect
 effect = FallEffect()
 
 class Snake(pygame.sprite.Sprite, Sound):
+    is_grid_sys_activated = False
     statistics_dict = {}
     exit_pos = [S_W // 2 - BLOCK_SIZE, 0]
     start_time = pygame.time.get_ticks()
@@ -317,7 +318,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.counter_increase_body_parts = 6
         self.is_increase_body_snake = False
         self.directions_archive = []
-
+        self.is_grid_sys_activated = False
 
     def update(self):
         self.check_direction()

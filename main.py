@@ -58,9 +58,7 @@ class GameState(Sound):
             snake.reset_all_data()
             [all_spite_groups_dict[group].empty() for group in all_spite_groups_dict]
             all_spite_groups_dict['snake'].add(snake)
-            if snake.level > 15:
-                snake.scrolling_game += 1
-                snake.level = 1
+            snake.level = 1
             all_spite_groups_dict['figure'].add(Figure(f'./src/assets/images/figures/level_{snake.level}.png'))
 
         if snake.is_back_to_game_state:
@@ -76,6 +74,9 @@ class GameState(Sound):
         if not self.is_bg_created:
             Sound.background_music(self)
             figure_group.empty()
+            if snake.level > 15:
+                snake.scrolling_game += 1
+                snake.level = 1
             figure_group.add(Figure(f'./src/assets/images/figures/level_{snake.level}.png'))
             new_fruit = Fruit(all_spite_groups_dict, snake)
             fruit_group.add(new_fruit)
@@ -100,8 +101,10 @@ class GameState(Sound):
         if check_key_pressed(pygame.K_g):
             if not self.is_grid_system:
                 self.is_grid_system = True
+                snake.is_grid_sys_activated = True
             else:
                 self.is_grid_system = False
+                snake.is_grid_sys_activated = False
 
         # # =================================================== UPDATE
         if self.is_grid_system:

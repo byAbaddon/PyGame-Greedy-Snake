@@ -32,27 +32,38 @@ class Table:
         text_creator(f'{self.snake_data.lives}', 'springgreen4', 374, S_H - 65, 20, None, './src/fonts/mario.ttf')
 
         # # label snake_speed
-        text_creator('Snake Speed:', 'orange', 280, S_H - 35, 20, None, './src/fonts/mario.ttf')
-        text_creator(f'{self.snake_data.current_snake_speed}', 'orange', 430, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        text_creator('Speed:', 'orange', 280, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{self.snake_data.current_snake_speed}', 'orange', 360, S_H - 35, 20, None, './src/fonts/mario.ttf')
 
         # label fruits left
-        text_creator('Fruits:', 'dodgerblue', 520, S_H - 65, 20, None, './src/fonts/mario.ttf')
-        text_creator(f'{self.snake_data.fruits_counter}', 'dodgerblue', 610, S_H - 65, 20, None, './src/fonts/mario.ttf')
+        text_creator('Fruits:', 'deepskyblue4', 420, S_H - 65, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{self.snake_data.fruits_counter}', 'deepskyblue4', 510, S_H - 65, 20, None, './src/fonts/mario.ttf')
 
         # label time
-        text_creator('Time :', 'purple', 520, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        text_creator('Time :', 'purple', 420, S_H - 35, 20, None, './src/fonts/mario.ttf')
         if self.snake_data.eat_timer > 20:
-            text_creator(f'{self.snake_data.eat_timer}', 'white', 596, S_H - 35, 20, None, './src/fonts/mario.ttf')
+            text_creator(f'{self.snake_data.eat_timer}', 'white', 496, S_H - 35, 20, None, './src/fonts/mario.ttf')
         else:
-            text_creator(f'{self.snake_data.eat_timer}', 'red', 596, S_H - 35, 20, None, './src/fonts/mario.ttf')
-
-        # label level
-        text_creator('Level:', 'goldenrod4', 710, S_H - 65, 20, None, './src/fonts/mario.ttf')
-        text_creator(f'{self.snake_data.level}', 'goldenrod4', 786, S_H - 65, 20, None, './src/fonts/mario.ttf')
+            text_creator(f'{self.snake_data.eat_timer}', 'red', 496, S_H - 35, 20, None, './src/fonts/mario.ttf')
 
         # label FPS
-        text_creator('FPS:', 'wheat', 710, S_H - 35, 20, None, './src/fonts/mario.ttf')
-        text_creator(f'{ int(CLOCK.get_fps())}', 'wheat', 760, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        text_creator('FPS :', 'grey49', 575, S_H - 65, 20, None, './src/fonts/mario.ttf', True)
+        text_creator(f'{int(CLOCK.get_fps())}', 'grey49', 635, S_H - 65, 20, None, './src/fonts/mario.ttf')
+
+        # label Grid
+        text_creator('Grid:', 'coral3', 575, S_H - 35, 20, None, './src/fonts/mario.ttf', True)
+        if self.snake_data.is_grid_sys_activated:
+            text_creator('on', 'green', 635, S_H - 35, 16, None, './src/fonts/mario.ttf')
+        else:
+            text_creator('off', 'brown', 635, S_H - 35, 16, None, './src/fonts/mario.ttf')
+
+        # label level
+        text_creator('Level:', 'goldenrod4', 700, S_H - 65, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{self.snake_data.level}', 'goldenrod4', 776, S_H - 65, 20, None, './src/fonts/mario.ttf')
+
+        # label scroll
+        text_creator('Scroll:', 'lightskyblue4', 700, S_H - 35, 20, None, './src/fonts/mario.ttf')
+        text_creator(f'{self.snake_data.scrolling_game}', 'lightskyblue4', 792, S_H - 35, 20, None, './src/fonts/mario.ttf')
 
     # watch
     def draw_watch(self):
