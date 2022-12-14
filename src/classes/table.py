@@ -1,3 +1,5 @@
+import pygame.image
+
 from src.settings import *
 
 
@@ -52,9 +54,20 @@ class Table:
         text_creator('FPS:', 'wheat', 710, S_H - 35, 20, None, './src/fonts/mario.ttf')
         text_creator(f'{ int(CLOCK.get_fps())}', 'wheat', 760, S_H - 35, 20, None, './src/fonts/mario.ttf')
 
+    # watch
+    def draw_watch(self):
+        if self.snake_data.body_list[-1][1] > 0: # check is snake exit from level
+            image = pygame.image.load('./src/assets/images/watch/watch.png')
+            SCREEN.blit(image,[S_W // 2 - 45, 0])
+            if self.snake_data.eat_timer > 20:
+                text_creator(f'{self.snake_data.eat_timer}', 'white', S_W // 2 - 28, 15, 22, None, './src/fonts/mario.ttf')
+            else:
+                text_creator(f'{self.snake_data.eat_timer}', 'red', S_W // 2 - 28, 15, 22, None, './src/fonts/mario.ttf')
+
     def update(self):
         self.draw_display_frame()
         self.draw_labels_and_table_data()
+        self.draw_watch()
 
 
 

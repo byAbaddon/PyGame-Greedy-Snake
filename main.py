@@ -109,13 +109,13 @@ class GameState(Sound):
         table.update()
 
         # #  --------------------------- draw sprite group
+        fruit_group.draw(SCREEN)
         snake_group.draw(SCREEN)
         figure_group.draw(SCREEN)
-        fruit_group.draw(SCREEN)
-        #
-        # # # # --------------------------- update sprite group
-        snake_group.update()
+
+        # # --------------------------- update sprite group
         fruit_group.update()
+        snake_group.update()
 
     def intro(self):
         if not self.is_music_play:

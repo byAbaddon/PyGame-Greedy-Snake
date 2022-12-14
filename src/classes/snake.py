@@ -17,7 +17,7 @@ class Snake(pygame.sprite.Sprite, Sound):
     scrolling_game = 0
     # - for reset in current game
     eat_timer = 60
-    speed = 6  # FPS
+    speed = 5  # FPS
     current_snake_speed = 50
     fruits_counter = 10
     is_eat_fruit = False
@@ -286,6 +286,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.is_back_to_game_state = False
         self.counter_increase_body_parts = 6
         self.is_increase_body_snake = False
+        self.directions_archive = []
 
     def reset_all_data(self):  # for new game
         self.image = scale_image('./src/assets/images/snake/head_up.png', BLOCK_SIZE, BLOCK_SIZE)
@@ -315,6 +316,8 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.is_game_over = False
         self.counter_increase_body_parts = 6
         self.is_increase_body_snake = False
+        self.directions_archive = []
+
 
     def update(self):
         self.check_direction()
