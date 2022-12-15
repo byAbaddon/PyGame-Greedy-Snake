@@ -1,2 +1,2 @@
-# PyGame-Snake-Bite
+# PyGame-Greedy Snake
 Test
