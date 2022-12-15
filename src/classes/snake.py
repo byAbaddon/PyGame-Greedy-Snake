@@ -46,7 +46,7 @@ class Snake(pygame.sprite.Sprite, Sound):
         self.direction_name = 'up'
         self.body = scale_image('./src/assets/images/snake/body_cross.png', BLOCK_SIZE, BLOCK_SIZE)
         self.queue = scale_image('./src/assets/images/snake/queue_up.png', BLOCK_SIZE, BLOCK_SIZE)
-        self.body_list = [vec(self.start_x_pos, self.start_y_pos + i) for i in range(5)]
+        self.body_list = [vec(self.start_x_pos, self.start_y_pos) for _ in range(5)]
 
     def check_direction(self):
         for event in pygame.event.get():
