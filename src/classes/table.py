@@ -47,11 +47,11 @@ class Table:
             text_creator(f'{self.snake_data.eat_timer}', 'red', 496, S_H - 35, 20, None, './src/fonts/mario.ttf')
 
         # label FPS
-        text_creator('FPS :', 'grey49', 575, S_H - 65, 20, None, './src/fonts/mario.ttf', True)
+        text_creator('FPS :', 'grey49', 575, S_H - 65, 20, None, './src/fonts/mario.ttf')
         text_creator(f'{int(CLOCK.get_fps())}', 'grey49', 635, S_H - 65, 20, None, './src/fonts/mario.ttf')
 
         # label Grid
-        text_creator('Grid:', 'coral3', 575, S_H - 35, 20, None, './src/fonts/mario.ttf', True)
+        text_creator('Grid:', 'coral3', 575, S_H - 35, 20, None, './src/fonts/mario.ttf')
         if self.snake_data.is_grid_sys_activated:
             text_creator('on', 'green', 635, S_H - 35, 16, None, './src/fonts/mario.ttf')
         else:
