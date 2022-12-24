@@ -23,7 +23,7 @@ class Figure(pygame.sprite.Sprite):
     def __init__(self, image):
         pygame.sprite.Sprite.__init__(self)
         self.level = int(image.split('/')[5].split('_')[1][:-4])
-        self.image = pygame.image.load(image)
+        self.image = pygame.image.load(image).convert_alpha()
         self.rect = self.image.get_bounding_rect(min_alpha=1)
         self.rect.center = self.levels_dict[self.level]
 
