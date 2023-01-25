@@ -24,6 +24,9 @@ https://youtu.be/h3a7t7mNpwk
 ![6](https://user-images.githubusercontent.com/51271834/207949564-ebcb9d65-3c37-40c2-8d80-fbf8ac21871c.png)
 ![7](https://user-images.githubusercontent.com/51271834/207949566-c19d3074-d630-4ee3-b3eb-95427cd7fc20.png)
 
+### Download
+#### For Linux AppImage that run anywhere
+https://github.com/byAbaddon/PyGame-Greedy-Snake/releases/tag/Greedy_Snake_AppImage
 
 ## Prerequisites
 - [Python](https://www.python.org)
